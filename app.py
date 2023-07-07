@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect 
 
 #initializing our flask application
-app = Flask(__name__, template_folder="templates")  
+app = Flask(__name__)  
 
 #CRUD OPERATIONS (CREATE, READ, UPDATE, DELETE)
 #storage list for now. items is a global variable

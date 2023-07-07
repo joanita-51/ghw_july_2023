@@ -3,25 +3,28 @@
     <!-- any information related to the project the meta data -->
     <head>
         <title>Hacker Planner App</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
     </head>
     <!-- what u see when you navigate to the page -->
     <body>
-        <!-- largest text in the project -->
-        <h1>Hack Planner</h1>
-        <!-- unordered list hence the dots -->
-        <ul>
-            <!-- That's how we let html know that we are using the information in this template coming from  the backend. Its a unique element in flask telling html to fill in whatever is given to it from the backend -->
-            {% for item in items %}
-            <li>
-                {{item}}
-                <a href="/edit/{{loop.index}}">Edit</a>
-                <a href="/delete/{{loop.index}}">Delete</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <form action="/add" method="post">
-            <input type="text" name="item" placeholder="Enter item ">
-            <button type="submit">Add</button>
-        </form>
+        <div class="container">
+            <!-- largest text in the project -->
+            <h1>Hack Planner</h1>
+            <!-- unordered list hence the dots -->
+            <ul>
+                <!-- That's how we let html know that we are using the information in this template coming from  the backend. Its a unique element in flask telling html to fill in whatever is given to it from the backend -->
+                {% for item in items %}
+                <li>
+                    {{item}}
+                    <a href="/edit/{{loop.index}}">Edit</a>
+                    <a href="/delete/{{loop.index}}">Delete</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <form class="add-form" action="/add" method="post">
+                <input type="text" name="item" placeholder="Enter item ">
+                <button type="submit">Add</button>
+            </form>
+        </div>
     </body>
 </html>
