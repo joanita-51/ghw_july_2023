@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <!-- any information related to the project the meta data -->
+    <head>
+        <title>Hacker Planner App</title>
+    </head>
+    <!-- what u see when you navigate to the page -->
+    <body>
+        <!-- largest text in the project -->
+        <h1>Hack Planner</h1>
+        <!-- unordered list hence the dots -->
+        <ul>
+            <!-- That's how we let html know that we are using the information in this template coming from  the backend. Its a unique element in flask telling html to fill in whatever is given to it from the backend -->
+            {% for item in items %}
+            <li>
+                {{item}}
+                <a href="/edit/{{loop.index}}">Edit</a>
+                <a href="/delete/{{loop.index}}">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <form action="/add" method="post">
+            <input type="text" name="item" placeholder="Enter item ">
+            <button type="submit">Add</button>
+        </form>
+    </body>
+</html>
