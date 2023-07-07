@@ -11,13 +11,13 @@
             <!-- largest text in the project -->
             <h1>Hack Planner</h1>
             <!-- unordered list hence the dots -->
-            <ul>
+            <ul class="checklist-items">
                 <!-- That's how we let html know that we are using the information in this template coming from  the backend. Its a unique element in flask telling html to fill in whatever is given to it from the backend -->
                 {% for item in items %}
                 <li>
-                    {{item}}
-                    <a href="/edit/{{loop.index}}">Edit</a>
-                    <a href="/delete/{{loop.index}}">Delete</a>
+                    {{item[1]}}
+                    <a href="/edit/{{item[0]}}">Edit</a>
+                    <a href="/delete/{{item[0]}}">Delete</a>
                 </li>
                 {% endfor %}
             </ul>

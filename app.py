@@ -62,7 +62,7 @@ def checklist():
 
 #CreateRUD
 @app.route ('/add', methods= ['POST'])
-def add_item():
+def add():
     item = request.form['item']
     add_item(item)
     return redirect('/') # we want the view function to return us to the home page or home route
@@ -71,7 +71,7 @@ def add_item():
 #CRUpdate
 #two methods because we want to retrieve an item then update it not only to update it
 @app.route('/edit/<int:item_id>', methods=['GET', 'POST'])
-def edit_item(item_id):
+def edit(item_id):
 
 
     if request.method == 'POST':
@@ -86,7 +86,7 @@ def edit_item(item_id):
 
 #CRUDelete
 @app.route('/delete/<int:item_id>')
-def delete_items(item_id):
+def delete(item_id):
     delete_item(item_id)
     return redirect('/')
 

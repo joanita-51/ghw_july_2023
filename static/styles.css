@@ -62,7 +62,7 @@ h1{
 
 .add-form input[type="text"]:focus,
 .edit-form input[type="text"]:focus{
-    background-color: #4CAF50;
+    background-color: #99c59a;
 }
 
 
