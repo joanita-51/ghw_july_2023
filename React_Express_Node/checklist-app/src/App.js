@@ -71,6 +71,20 @@ function App() {
     }
   }
 
+  // Function for the reminders
+  const setReminder = async(id)=>{
+    try {
+      const item = items.find((item)=> item.id === id)
+      const confirmed = window.confirm(['Reminder:' + item.item])
+      if(confirmed){
+        await axios.post('http://localhost:3001/send_email', {item: item.item})
+      }
+    } catch (error) {
+      console.error("Error sending reminder:", error)
+      
+    }
+  }
+
   return (
     <div className="container">
       <h1>Hacker Planner</h1>

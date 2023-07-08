@@ -12,6 +12,9 @@ dotenv.config()
 //setting up our express server
 const app = express();
 const port = 3001;
+const sendgridApiKey=process.env.SENDGRID_API_KEY;
+const reminderEmail = process.env.REMINDER_EMAIL;
+const receiverEmail = process.env.RECIEVER_EMAIL;
 
 //including our middlewares. They are interfaces that allow information to be spread around the application
 app.use(express.json()) //Send json information across the application 
@@ -71,7 +74,27 @@ app.delete('/items/:id', (req,res)=>{
         }
     })
 })
+app.post('/send_email', (req,res)=>{
+    const item = req.body.item;
+    const subject = `Reminder: ${item}`;
+    const body = `This is a reminder for the task:${item}`
 
+    sgMail.setApiKey(sendgridApiKey);
+    const msg = {
+        to: receiverEmail,
+        from:reminderEmail,
+        subject: subject,
+        text:body,
+    };
+    sgMail.send(msg)
+    .then(()=>{
+        res.sendStatus(200)
+    })
+    .catch((error)=>{
+        console.error('Error sending email:', error);
+        res.status(500).json({error: error.message});
+    })
+})
 //This starts our application
 app.listen(port, ()=> {
     console.log(`Server is running on port ${port}`)
