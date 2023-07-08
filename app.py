@@ -12,6 +12,7 @@ from sendgrid.helpers.mail import Mail
 
 sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
 reminder_email = os.getenv('REMINDER_EMAIL')
+receiver_email = os.getenv('RECEIVER_EMAIL')
 
 
 #CRUD OPERATIONS (CREATE, READ, UPDATE, DELETE)
@@ -66,7 +67,7 @@ def delete_item(item_id):
 def send_email(subject, body):
     message = Mail(
         from_email=reminder_email,
-        to_emails='sendgrid.tutorial@protonmail.com',
+        to_emails=receiver_email,
         subject=subject,
         plain_text_content=body)
 

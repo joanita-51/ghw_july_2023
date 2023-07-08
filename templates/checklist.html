@@ -38,18 +38,19 @@
                     },
                     body:JSON.stringify({
                         item:item
-                    }). then(response =>{
+                    })
+                }) 
+                .then(response =>{
                         if(response.ok){
                             console.log("Reminder email sent successfully.")
                         }else{
                             console.log("Failed to send reminder email.")
                         }
-                    }).catch(error=>{
-                        console.error("Error occured",error);
-                    })
-                }
+                })
+                .catch(error=>{
+                    console.error("Error occured",error);
+                })
 
-                )
             }
             function setReminder(item){
                 setTimeout(function(){
