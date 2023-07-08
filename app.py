@@ -1,9 +1,18 @@
 #this line imports functionality into our project, so we don't have to write it ourselves
-from flask import Flask, render_template, request, redirect 
+from flask import Flask, render_template, request, redirect, jsonify
 import sqlite3
 
 #initializing our flask application
-app = Flask(__name__)  
+app = Flask(__name__) 
+
+# Allows python to access different directories in your environment. it will be used to access the environment variables in the dotenv
+import os 
+import sendgrid
+from sendgrid.helpers.mail import Mail
+
+sendgrid_api_key = os.getenv('SENDGRID_API_KEY')
+reminder_email = os.getenv('REMINDER_EMAIL')
+
 
 #CRUD OPERATIONS (CREATE, READ, UPDATE, DELETE)
 #storage list for now. items is a global variable
@@ -50,7 +59,28 @@ def delete_item(item_id):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("DELETE FROM checklist WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
 
+# The sendgrid api function
+def send_email(subject, body):
+    message = Mail(
+        from_email=reminder_email,
+        to_emails='sendgrid.tutorial@protonmail.com',
+        subject=subject,
+        plain_text_content=body)
+
+    try:
+        sg = sendgrid.SendGridAPIClient(api_key=sendgrid_api_key)
+        response = sg.send(message)
+        if response.status_code == 202:
+            return True
+    except Exception as e:
+        print("An error occurred while sending email:", str(e))
+    
+    return False
+
+# OUR ROUTES
 #CReadUD : Taking place at the home path
 #by default route uses the GET method. Only lets the user receive the data not send it . read info from the backend
 @app.route('/')
@@ -90,5 +120,16 @@ def delete(item_id):
     delete_item(item_id)
     return redirect('/')
 
+# send email route
+@app.route('/send_email', methods=['POST'])
+def send_email_route():
+    data = request.get_json()
+    item = data['item']
+    subject = "Reminder: {}".format(item)
+    body = "This is a reminder for the task:{}".format(item)
 
+    if send_email(subject, body):
+        return jsonify(success=True)
+    else:
+        return jsonify(success=False), 500
 

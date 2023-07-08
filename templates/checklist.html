@@ -28,10 +28,34 @@
             </form>
         </div>
         <script>
+            // sending information from the send_email path
+            function sendReminderEmail(item){
+                fetch('/send_email',{
+                    method:'POST',
+                    // the metadata for the request
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        item:item
+                    }). then(response =>{
+                        if(response.ok){
+                            console.log("Reminder email sent successfully.")
+                        }else{
+                            console.log("Failed to send reminder email.")
+                        }
+                    }).catch(error=>{
+                        console.error("Error occured",error);
+                    })
+                }
+
+                )
+            }
             function setReminder(item){
                 setTimeout(function(){
                     var reminder = confirm("Reminder: " + item)
                 }, 5 * 1000); //5 seconds in milliseconds
+                sendReminderEmail(item)
             }
         </script>
     </body>

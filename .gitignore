@@ -1,1 +1,4 @@
+# For the secret keys not to be updated to github
 virtual_env
+
+.env
